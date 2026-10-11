@@ -112,6 +112,9 @@ jobs:
     needs: [build-windows]
     if: github.event_name == 'release'
 
+    permissions:
+      contents: write
+
     steps:
     - name: 📥 检出代码
       uses: actions/checkout@v4
@@ -165,7 +168,7 @@ jobs:
         make_latest: true
         fail_on_unmatched_files: true
         draft: false
-        overwrite: true
+        overwrite_files: true
         prerelease: ${{ github.event.release.prerelease }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
