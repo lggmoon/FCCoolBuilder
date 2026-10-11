@@ -1,0 +1,27 @@
+{
+  "Description": "",
+  "Title": "## IN 1",
+  "PageMenuNum": 20,
+  "MenuTitleX": 13,
+  "MenuTitleY": 3,
+  "MenuStartX": 6,
+  "MenuStartY": 8,
+  "MenuInterSpace": 1,
+  "CursorCode": 62,
+  "CursorColumnCount": 2,
+  "CursorOffsetX": 0,
+  "CursorOffsetY": 3,
+  "NoneCode": 0,
+  "UseAscii": false,
+  "Symbols": {
+    " ": 32,
+    "0": 48,
+    "a": 65,
+    "A": 65,
+    "-": 45,
+    ".": 46,
+    "=": 61,
+    "@": 64,
+    "|": 107
+  }
+}

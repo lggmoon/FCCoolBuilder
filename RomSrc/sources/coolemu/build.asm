@@ -1,0 +1,112 @@
+; Common constants
+GAMES_COUNT = 3
+PAGE_MENU_NUM = 14
+MENU_TITLE_X = 13
+MENU_TITLE_Y = 4
+MENU_START_X = 7
+MENU_START_Y = 6
+MENU_INTER_SPACE = 1
+HIGHLIGHT_CODE = 0
+CURSOR_OFFSET_X = -2
+CURSOR_OFFSET_Y = 0
+CURSOR_COLUMN_COUNT = 1
+CURSOR_FRAME_COUNT = 1
+CURSOR_BLING_COUNT = 2
+CURSOR_CODE = 38
+CURSOR_SPEED = 4
+ZERO_CODE = 2
+DOT_CODE = 1
+CURSOR_REFRESH_TIME = 5
+ENABLE_LAST_GAME_SAVING = 1
+ENABLE_SYSTEM_SOUND = 0
+
+ .bank 13
+ .org $A000
+FAMISTUDIO_MUSIC_DATA
+ .include "../../musics/WQ1506_Series.asm"
+
+ .bank 14
+ .org $D000
+FAMISTUDIO_SFX_DATA
+ .include "../../sfxes/sfx_400in1.asm"
+
+; CHR Data
+ .bank 12
+ .org $8000
+chr_data:
+ .incbin "../../themes/pic14/0.chr"
+ppu_palette_data:
+ .incbin "../../themes/pic14/0.col"
+background_nametable_data:
+ .incbin "../../themes/pic14/0.nam"
+background_attrtable_data:
+ .incbin "../../themes/pic14/0.atb"
+
+ .bank 15
+ .org $FF00
+menu_foot:
+  .db $29, $0E, $1A, $1A, $17, $10, $18, $20, $00
+
+menu_title:
+  .db $05, $29, $14, $19, $29, $03, $00
+
+
+; Loader data
+
+  .bank 0
+  .org $8000
+loader_data_game_offset_l:
+  .db $01, $02, $80
+
+  .bank 0
+  .org $8100
+loader_data_game_offset_h:
+  .db $02, $03, $00
+
+  .bank 0
+  .org $8200
+loader_data_game_size_l:
+  .db $01, $01, $81
+
+  .bank 0
+  .org $8300
+loader_data_game_size_h:
+  .db $01, $01, $01
+
+  .bank 0
+  .org $8400
+loader_data_game_idx_l:
+  .db $01, $02, $03
+
+  .bank 0
+  .org $8500
+loader_data_game_idx_h:
+  .db $00, $00, $00
+
+; Game names
+
+  .bank 0
+  .org $9000
+game_names:
+  .dw game_name_0
+  .dw game_name_1
+  .dw game_name_2
+
+
+  .bank 1
+  .org $A000
+; Snow Bros. (U) [!].nes
+game_name_0:
+  .db $03, $01, $1E, $19, $1A, $22, $29, $0D, $1D, $1A, $1E, $01, $29, $29, $20
+  .db $29, $29, $29, $29, $29, $00
+
+; Snow Bros. (E) [!].nes
+game_name_1:
+  .db $04, $01, $1E, $19, $1A, $22, $29, $0D, $1D, $1A, $1E, $01, $29, $29, $10
+  .db $29, $29, $29, $29, $29, $00
+
+; Castlevania III - Cadence of Agony by Dr. Mario+Optomon v20091228 (Hack).nes
+game_name_2:
+  .db $05, $01, $0E, $0C, $1E, $1F, $17, $10, $21, $0C, $19, $14, $0C, $29, $14
+  .db $14, $14, $29, $29, $29, $0E, $0C, $0F, $10, $19, $0E, $10, $01, $01, $01
+  .db $00

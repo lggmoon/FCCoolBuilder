@@ -1,0 +1,23 @@
+{
+  "Description": "",
+  "Title": "RACING ## IN 1",
+  "PageMenuNum": 17,
+  "MenuTitleX": 9,
+  "MenuTitleY": 2,
+  "MenuStartX": 5,
+  "MenuStartY": 4,
+  "MenuInterSpace": 1,
+  "EnableLastGameSaveing": false,
+  "CursorOffsetX": -2,
+  "CursorOffsetY": 0,
+  "CursorCode": 38,
+  "NoneCode": 41,
+  "UseAscii": false,
+  "Symbols": {
+    "0": 2,
+    "A": 12,
+    ".": 1,
+    "'": 39,
+    "&": 40
+  }
+}

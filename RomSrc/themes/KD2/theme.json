@@ -1,0 +1,27 @@
+{
+  "Description": "",
+  "Title": "## IN 1",
+  "PageMenuNum": 12,
+  "MenuTitleX": 13,
+  "MenuTitleY": 8,
+  "MenuStartX": 6,
+  "MenuStartY": 10,
+  "MenuInterSpace": 1,
+  "CursorCode": 41,
+  "CursorColumnCount": 3,
+  "CursorFrameCount": 2,
+  "CursorOffsetX": -4,
+  "CursorOffsetY": -7,
+  "CursorRefreshTime": 8,
+  "NoneCode": 50,
+  "UseAscii": false,
+  "UseBigCursor": true,
+  "Symbols": {
+    "0": 2,
+    "A": 12,
+    ".": 1,
+    "'": 39,
+    "&": 40,
+    " ": 50
+  }
+}

@@ -1,0 +1,171 @@
+name: Build FCCoolBuilder
+
+on:
+  push:
+    branches: [ "main", "master" ]
+    tags:
+      - 'v*'
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+  pull_request:
+    branches: [ "main", "master" ]
+  release:
+    types: [ created ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  PROJECT_NAME: FCCoolBuilder
+  SOLUTION_FILE: FCCoolBuilder.sln
+  PROJECT_FILE: FCCoolBuilder.csproj
+
+jobs:
+  # Windows 构建任务
+  build-windows:
+    name: Build for Windows
+    runs-on: windows-latest
+
+    steps:
+    - name: 📥 检出代码
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: 0
+        # 跳过子模块的 git 检查，避免 RomSrc/sources 的 git 仓库冲突
+        set-safe-directory: false
+
+    - name: ⚙️ 设置 .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 📦 还原依赖
+      run: dotnet restore ${{ env.SOLUTION_FILE }}
+
+    - name: 🔨 编译 Release 版本
+      shell: pwsh
+      run: |
+        dotnet publish ${{ env.PROJECT_FILE }} `
+          -c Release `
+          -r win-x64 `
+          --self-contained true `
+          -p:PublishSingleFile=true `
+          -p:IncludeNativeLibrariesForSelfExtract=true `
+          -p:DebugType=None `
+          -p:DebugSymbols=false `
+          -o publish/win-x64
+
+        Write-Host "Build completed!"
+        Write-Host "Files in publish/win-x64:"
+        Get-ChildItem -Path publish/win-x64 -Recurse | ForEach-Object { Write-Host $_.FullName }
+
+    - name: 📤 上传构建产物 (win-x64)
+      uses: actions/upload-artifact@v4
+      with:
+        name: FCCoolBuilder-windows-x64
+        path: publish/win-x64/
+        retention-days: 30
+        if-no-files-found: error
+
+  # 可选：如果需要也构建 x86 版本
+  build-windows-x86:
+    name: Build for Windows x86
+    runs-on: windows-latest
+    if: false  # 默认禁用，需要时改为 true
+
+    steps:
+    - name: 📥 检出代码
+      uses: actions/checkout@v4
+
+    - name: ⚙️ 设置 .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 📦 还原依赖
+      run: dotnet restore ${{ env.SOLUTION_FILE }}
+
+    - name: 🔨 编译 Release 版本 (x86)
+      run: |
+        dotnet publish ${{ env.PROJECT_FILE }} `
+          -c Release `
+          -r win-x86 `
+          --self-contained true `
+          -p:PublishSingleFile=true `
+          -p:IncludeNativeLibrariesForSelfExtract=true `
+          -p:DebugType=None `
+          -p:DebugSymbols=false `
+          -o publish/win-x86
+
+    - name: 📤 上传构建产物 (win-x86)
+      uses: actions/upload-artifact@v4
+      with:
+        name: FCCoolBuilder-windows-x86
+        path: publish/win-x86/
+        retention-days: 30
+
+  # 发布到 Release（仅在创建 Release 时触发）
+  release-artifacts:
+    name: Package and Upload to Release
+    runs-on: windows-latest
+    needs: [build-windows]
+    if: github.event_name == 'release'
+
+    steps:
+    - name: 📥 检出代码
+      uses: actions/checkout@v4
+
+    - name: 📥 下载构建产物
+      uses: actions/download-artifact@v4
+      with:
+        name: FCCoolBuilder-windows-x64
+        path: publish/win-x64
+
+    - name: 📦 复制 RomSrc 资源目录
+      shell: pwsh
+      run: |
+        # 复制 RomSrc 的所有子目录（musics, sfxes, sources, themes, tools）
+        Get-ChildItem -Path "RomSrc" -Directory | ForEach-Object {
+          $destPath = "publish/win-x64/$($_.Name)"
+          Write-Host "Copying $($_.FullName) -> $destPath"
+          Copy-Item -Path $_.FullName -Destination $destPath -Recurse -Force
+        }
+
+        Write-Host "RomSrc resources copied!"
+        Get-ChildItem -Path "publish/win-x64/" -Directory | ForEach-Object {
+          Write-Host "  - $($_.Name)"
+        }
+
+    - name: 📦 创建 ZIP 压缩包
+      shell: pwsh
+      run: |
+        Compress-Archive -Path publish/win-x64/* -DestinationPath FCCoolBuilder-win-x64.zip -Force
+        Write-Host "ZIP created!"
+        $zipFile = Get-Item -Path FCCoolBuilder-win-x64.zip
+        Write-Host "ZIP file: $($zipFile.Name) - Size: $($zipFile.Length) bytes"
+
+        # 显示 ZIP 内容
+        Write-Host "ZIP contents:"
+        Add-Type -Assembly System.IO.Compression.FileSystem
+        $zip = [System.IO.Compression.ZipFile]::OpenRead("$PWD/FCCoolBuilder-win-x64.zip")
+        $zip.Entries | Select-Object -First 20 | ForEach-Object { Write-Host "  $($_.FullName)" }
+        if ($zip.Entries.Count -gt 20) {
+          Write-Host "  ... and $($zip.Entries.Count - 20) more files"
+        }
+        $zip.Dispose()
+
+    - name: 📤 上传到 Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+        name: ${{ github.event.release.name || github.event.inputs.tag || github.ref_name }}
+        files: FCCoolBuilder-win-x64.zip
+        generate_release_notes: true
+        make_latest: true
+        fail_on_unmatched_files: true
+        draft: false
+        overwrite: true
+        prerelease: ${{ github.event.release.prerelease }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

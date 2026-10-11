@@ -1,0 +1,14 @@
+/.vs
+/obj
+/bin
+/RomSrc/*
+!/RomSrc/musics
+!/RomSrc/sfxes
+!/RomSrc/sources
+!/RomSrc/themes
+!/RomSrc/tools
+/RomSrc/themes/*.rar
+/RomSrc/themes/*.zip
+/RomSrc/sources/*.fns
+/RomSrc/sources/*.nes
+/RomSrc/sources/build.asm

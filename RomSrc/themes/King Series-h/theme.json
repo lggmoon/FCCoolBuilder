@@ -1,0 +1,25 @@
+{
+  "Description": "",
+  "Title": "Super ## IN 1",
+  "PageMenuNum": 10,
+  "MenuTitleX": 10,
+  "MenuTitleY": 4,
+  "MenuStartX": 8,
+  "MenuStartY": 7,
+  "MenuInterSpace": 2,
+  "CursorOffset": 3,
+  "CursorCode": 62,
+  "NoneCode": 16,
+  "UseAscii": false,
+  "Symbols": {
+    " ": 32,
+    "0": 48,
+    "a": 65,
+    "A": 65,
+    "-": 45,
+    ".": 46,
+    "=": 61,
+    "@": 64,
+    "|": 107
+  }
+}

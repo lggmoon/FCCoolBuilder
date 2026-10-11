@@ -1,0 +1,24 @@
+{
+  "Description": "",
+  "Title": "## IN 1",
+  "PageMenuNum": 22,
+  "MenuTitleX": 13,
+  "MenuTitleY": 3,
+  "MenuStartX": 5,
+  "MenuStartY": 5,
+  "MenuInterSpace": 1,
+  "CursorCode": 86,
+  "EnableLastGameSaveing": false,
+  "CursorOffsetX": 0,
+  "CursorOffsetY": 0,
+  "NoneCode": 9,
+  "UseAscii": false,
+  "Symbols": {
+    "0": 50,
+    "A": 60,
+    ".": 49,
+    "'": 87,
+    "&": 88,
+    " ": 9
+  }
+}

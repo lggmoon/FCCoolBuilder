@@ -1,0 +1,32 @@
+{
+  "Description": "",
+  "Title": "## IN 1",
+  "PageMenuNum": 11,
+  "MenuTitleX": 12,
+  "MenuTitleY": 1,
+  "MenuStartX": 6,
+  "MenuStartY": 3,
+  "MenuInterSpace": 1,
+  "CursorOffsetX":-2,
+  "EnableLastGameSaveing": false,
+  "CursorCode": 38,
+  "NoneCode": 207,
+  "UseAscii": false,
+  "Symbols": {
+    "0": 1,
+    "A": 11,
+    "O": 189,
+    "P": 25,
+    "Q": 26,
+    "R": 27,
+    "S": 28,
+    "T": 29,
+    "U": 30,
+    "Y": 31,
+    "W": 32,
+    "X": 33,
+    "Y": 34,
+    "Z": 35,
+    ".": 36
+  }
+}

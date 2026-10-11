@@ -1,0 +1,23 @@
+{
+  "Description": "",
+  "Title": "SUPER GAME ## IN 1",
+  "PageMenuNum": 9,
+  "MenuTitleX": 7,
+  "MenuTitleY": 2,
+  "MenuStartX": 4,
+  "MenuStartY": 4,
+  "MenuInterSpace": 2,
+  "EnableLastGameSaveing": false,
+  "CursorOffsetX": -3,
+  "CursorOffsetY": 0,
+  "CursorCode": 38,
+  "NoneCode": 160,
+  "UseAscii": false,
+  "Symbols": {
+    "0": 2,
+    "A": 12,
+    ".": 1,
+    "'": 39,
+    "&": 40
+  }
+}
